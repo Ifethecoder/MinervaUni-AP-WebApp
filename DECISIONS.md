@@ -43,4 +43,38 @@
 3. **Mandatory Disclosure**: AI use is logged in `SCRATCHPAD.md`.
 **Trade-offs**: Development may be slower due to mandatory human review and documentation overhead, but the resulting system is more ethical, secure, and aligned with institutional values.
 
-<!-- Add new decisions below, incrementing the number. -->
+## Decision 003 — AI Guardrails Implementation for ReviewFlow
+
+**Date**: 2026-03-29
+**Decision**: Implement specific UI and process guardrails to ensure transparency and human accountability.
+**Rationale**: As per the Minerva Staff AI Guardrails, the application must clearly disclose its AI-assisted nature and ensure that humans (APs) remain the final decision-makers.
+**Implementation**:
+1. **Visual Disclosure**: Add an "AI-Assisted" badge in the footer of the web application.
+2. **Human-in-the-Loop**: The UI will present AI findings as *suggestions* or *highlights* that the user must verify, rather than automated "corrections".
+3. **Disclosure Template**: Use the Minerva Disclosure Template in `SCRATCHPAD.md` for all development sessions.
+**Trade-offs**: Slightly more UI clutter due to the badge, but ensures compliance and user trust.
+
+**Guardrails Alignment**:
+- **Privacy & IP**: Protects the integrity of the evaluation process by clarifying AI's role.
+- **Disclosure**: Mandatory visual badge and session logging.
+- **Responsibility**: Explicitly states that the AP is the responsible party for final evaluations.
+- **Bias & Trust**: Highlights are suggestions to be reviewed, reducing reliance on potentially biased AI output.
+- **Values**: Accountability and Transparency.
+
+## Decision 004 — Data Privacy & Synthetic Testing
+
+**Date**: 2026-03-29
+**Decision**: Use only synthetic or fully anonymized essay data for development and testing.
+**Rationale**: To strictly adhere to Zero-Trust for sensitive data (PII) and FERPA/Minerva privacy standards. Real student essays contain PII that must not be processed in this AI session.
+**Implementation**:
+1. **Synthetic Data**: Generate or use public-domain sample essays for all testing.
+2. **No PII**: Ensure no names, IDs, or identifiable personal details are ever committed or processed.
+**Trade-offs**: Testing might not capture the full variety of real-world essay nuances, but the privacy risk of using real data is unacceptable.
+
+**Guardrails Alignment**:
+- **Privacy & IP**: Zero-trust for PII.
+- **Disclosure**: Documented use of synthetic data.
+- **Responsibility**: Human developer (Gemini + Student) ensures no real data is used.
+- **Bias & Trust**: Avoids training/processing on sensitive real-world data.
+- **Values**: Privacy and Care.
+

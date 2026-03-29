@@ -1,20 +1,20 @@
-# [PROJECT NAME] — Project Context
+# ReviewFlow — Project Context
 
 ## Project Identity
 
-**Name**: [Your App Name]
-**Purpose**: [One sentence — what does this app do, and why does it matter to the people who use it?]
-**Audience**: [Who uses this? What do they already know, and what are they trying to do?]
-**Human context**: [What changes in how people think, learn, or act because this app exists?]
+**Name**: ReviewFlow
+**Purpose**: Help admissions processors evaluate essays faster and more consistently by automatically surfacing countable grammar errors and highlighting rubric-based evidence.
+**Audience**: Admissions Processors (APs) who already understand the grammar handbook and writing rubric, and need to efficiently process large volumes of essays while staying aligned with evaluation rules.
+**Human context**: Instead of manually scanning for errors and mentally tracking rubric evidence, APs can focus on judgment and decision-making, with less cognitive load and more confidence in their evaluations.
 
-**GitHub repo**: [username/repo-name]
-**Live URL**: [https://username.github.io/repo-name]
+**GitHub repo**: [Ifethecoder/ReviewFlow]
+**Live URL**: [https://Ifethecoder.github.io/ReviewFlow]
 
 ## Tech Stack
 
 - **Frontend**: Vanilla HTML, CSS, JavaScript — no framework, no build step
 - **Hosting**: GitHub Pages (static only — no server-side code, no databases)
-- **Data / Auth**: [e.g., localStorage only | external API — name it | none]
+- **Data / Auth**: localStorage only
 - **Cost**: $0
 
 

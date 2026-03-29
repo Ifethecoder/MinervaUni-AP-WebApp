@@ -2,42 +2,36 @@
 
 ## Current State
 
-> **Keep this block short and current.** Update it at the end of every session.
-> This is the first thing Gemini reads — make it worth reading.
-
 **Status**: NOT STARTED
-**Active milestone**: M1 — [Milestone name]
-**Last session**: [YYYY-MM-DD]
+**Active milestone**: M1 — Grammar Review Assistant (Core MVP)
+**Last session**: 2026-03-29
 
 **Next actions**:
-- [ ] [The first concrete thing to do next session]
-- [ ] [The second thing]
-- [ ] [The third thing, if known]
+- [ ] Define AI Guardrails in DECISIONS.md
+- [ ] Create basic project structure (index.html, css/styles.css, js/app.js)
+- [ ] Implement essay input field and basic display
 
 **Open questions**:
-- [Any unresolved technical or design decisions]
-- [Any user-facing questions that need answering before proceeding]
+- Which specific grammar errors should we prioritize for M1?
+- How will the rubric evidence highlighting be visually represented?
 
 ---
 
 ## Milestones
 
-> Each milestone should represent a user-visible capability, not a technical task.
-> Write the acceptance criteria as things a real user could verify, not things only a developer would notice.
-
 ### M0 — Project Initialization
 
-- [ ] Clone template repository
-- [ ] Fill in GEMINI.md project identity section
+- [x] Clone template repository
+- [x] Fill in GEMINI.md project identity section
 - [ ] **Define AI Guardrails**: In `DECISIONS.md`, document how this project handles data privacy and human accountability.
-- [ ] Define milestones M1–M3 below
+- [x] Define milestones M1–M3 below
 - [ ] Push initial commit to GitHub
 - [ ] Enable GitHub Pages in repository settings
 - [ ] Confirm live URL is accessible
 
-### M1 — [First Milestone Name]
+### M1 — Grammar Review Assistant (Core MVP)
 
-*[One sentence: what can a user do or experience once this milestone is complete?]*
+*A user can upload or paste an essay and see common grammar errors automatically flagged for review.*
 
 **Values checklist**:
 - [ ] **Learning**: Deepens understanding & invites participation
@@ -46,26 +40,13 @@
 - [ ] **Transparency**: AI use disclosed & human-reviewed
 
 **Acceptance criteria**:
-- [ ] [Criterion 1 — observable by a user]
-- [ ] [Criterion 2]
-- [ ] [Criterion 3]
+- [ ] Text area for essay input
+- [ ] Visual indicator for detected grammar errors (e.g., underlines)
+- [ ] Hover/click tooltips explaining the error type
 
-### M2 — [Second Milestone Name]
+### M2 — Rubric Evidence Assistant
 
-*[Description]*
-
-**Values checklist**:
-- [ ] Learning
-- [ ] Agency
-- [ ] Privacy
-- [ ] Transparency
-
-**Acceptance criteria**:
-- [ ] [Criterion]
-
-### M3 — [Third Milestone Name]
-
-*[Description]*
+*A user can see highlights in the essay that correspond to specific rubric criteria, assisting in qualitative evaluation.*
 
 **Values checklist**:
 - [ ] Learning
@@ -74,7 +55,24 @@
 - [ ] Transparency
 
 **Acceptance criteria**:
-- [ ] [Criterion]
+- [ ] Rubric criteria panel/sidebar
+- [ ] Colored highlighting of text sections matching criteria
+- [ ] Ability to toggle highlights for different rubric sections
+
+### M3 — Full Review Workflow + Export
+
+*A user can complete a full review, add notes, and export the results for final submission.*
+
+**Values checklist**:
+- [ ] Learning
+- [ ] Agency
+- [ ] Privacy
+- [ ] Transparency
+
+**Acceptance criteria**:
+- [ ] Review summary dashboard
+- [ ] Manual notes/comments section for each highlight
+- [ ] Export functionality (e.g., Download as PDF or copy to clipboard)
 
 <!-- Add milestones as the project grows. Keep acceptance criteria user-observable. -->
 

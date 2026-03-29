@@ -3,22 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Your App Name] — Minerva University</title>
+    <title>ReviewFlow — Minerva University</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>[Your App Name]</h1>
-            <p class="subtitle">[One-sentence purpose]</p>
+            <h1>ReviewFlow</h1>
+            <p class="subtitle">Efficient and consistent essay evaluation for admissions processors.</p>
         </div>
     </header>
 
     <main class="container">
         <!-- Students will build their app here -->
-        <section id="app-placeholder">
-            <h2>Ready to start?</h2>
-            <p>Tell Gemini what your first milestone is, or ask: "What should we build first for [App Name]?"</p>
+        <section id="essay-input-section" class="card">
+            <h2>Start Your Review</h2>
+            <p>Paste an essay below to begin the grammar and rubric evaluation.</p>
+            <textarea id="essay-input" placeholder="Paste essay content here..." rows="15" style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid var(--mu-ash); font-family: var(--font-sans); font-size: 1rem; margin-bottom: 1.5rem;"></textarea>
+            <button id="analyze-btn" style="background-color: var(--mu-clay); color: var(--mu-white); padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem;">Analyze Essay</button>
+        </section>
+
+        <section id="analysis-results" style="display: none; margin-top: 2rem;">
+            <h2>Analysis Results</h2>
+            <div id="essay-display" class="card" style="white-space: pre-wrap; margin-bottom: 2rem;"></div>
+            <div id="error-summary" class="card">
+                <h3>Detected Grammar Errors</h3>
+                <ul id="error-list"></ul>
+            </div>
         </section>
     </main>
 
