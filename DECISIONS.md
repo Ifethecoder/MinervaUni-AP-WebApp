@@ -78,3 +78,17 @@
 - **Bias & Trust**: Avoids training/processing on sensitive real-world data.
 - **Values**: Privacy and Care.
 
+## Decision 005 — Pivot to Manual Tagging Assistant
+
+**Date**: 2026-03-29
+**Decision**: Replace automated regex detection with a manual "Highlight & Tag" workflow.
+**Rationale**: Regex detection proved too fragile for the nuances of the admissions handbook. By allowing APs to manually highlight and categorize errors, the app preserves human expertise while automating the counting, deduplication, and reporting tasks. This aligns more closely with the "Human-in-the-Loop" guardrail.
+**Implementation**: Use `window.getSelection()` to allow users to tag specific text spans with handbook categories.
+**Trade-offs**: Requires more manual effort from the AP, but results in 100% accuracy based on human judgment.
+
+**Guardrails Alignment**:
+- **Privacy & IP**: No data processed by external AI; all judgment is local.
+- **Disclosure**: Explicitly a human-led tool.
+- **Responsibility**: AP remains the sole evaluator.
+- **Values**: Accountability and Agency.
+

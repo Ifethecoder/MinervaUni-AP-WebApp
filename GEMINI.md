@@ -7,8 +7,8 @@
 **Audience**: Admissions Processors (APs) who already understand the grammar handbook and writing rubric, and need to efficiently process large volumes of essays while staying aligned with evaluation rules.
 **Human context**: Instead of manually scanning for errors and mentally tracking rubric evidence, APs can focus on judgment and decision-making, with less cognitive load and more confidence in their evaluations.
 
-**GitHub repo**: [Ifethecoder/ReviewFlow]
-**Live URL**: [https://Ifethecoder.github.io/ReviewFlow]
+**GitHub repo**: [Ifethecoder/MinervaUni-AP-WebApp]
+**Live URL**: [https://Ifethecoder.github.io/MinervaUni-AP-WebApp]
 
 ## Tech Stack
 

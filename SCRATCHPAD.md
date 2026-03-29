@@ -2,17 +2,17 @@
 
 ## Current State
 
-**Status**: NOT STARTED
+**Status**: IN PROGRESS
 **Active milestone**: M1 — Grammar Review Assistant (Core MVP)
 **Last session**: 2026-03-29
 
 **Next actions**:
-- [ ] Define AI Guardrails in DECISIONS.md
-- [ ] Create basic project structure (index.html, css/styles.css, js/app.js)
-- [ ] Implement essay input field and basic display
+- [ ] Implement robust grammar error detection (Regex-based)
+- [ ] Add visual highlighting (underlines) for errors in the essay display
+- [ ] Create tooltips/modals for error explanations
 
 **Open questions**:
-- Which specific grammar errors should we prioritize for M1?
+- Which specific grammar errors should we prioritize for M1? (e.g., its/it's, then/than, subject-verb agreement)
 - How will the rubric evidence highlighting be visually represented?
 
 ---
@@ -23,26 +23,19 @@
 
 - [x] Clone template repository
 - [x] Fill in GEMINI.md project identity section
-- [ ] **Define AI Guardrails**: In `DECISIONS.md`, document how this project handles data privacy and human accountability.
+- [x] **Define AI Guardrails**: In `DECISIONS.md`, document how this project handles data privacy and human accountability.
 - [x] Define milestones M1–M3 below
-- [ ] Push initial commit to GitHub
+- [x] Push initial commit to GitHub
 - [ ] Enable GitHub Pages in repository settings
 - [ ] Confirm live URL is accessible
 
-### M1 — Grammar Review Assistant (Core MVP)
+### M1 — Manual Tagging Assistant (MVP)
 
-*A user can upload or paste an essay and see common grammar errors automatically flagged for review.*
-
-**Values checklist**:
-- [ ] **Learning**: Deepens understanding & invites participation
-- [ ] **Agency**: Supports human control, not AI dependence
-- [ ] **Privacy**: Zero-trust for sensitive data (PII, student records)
-- [ ] **Transparency**: AI use disclosed & human-reviewed
-
-**Acceptance criteria**:
-- [ ] Text area for essay input
-- [ ] Visual indicator for detected grammar errors (e.g., underlines)
-- [ ] Hover/click tooltips explaining the error type
+- [x] **Manual Selection Engine**: AP can highlight text to tag an error category.
+- [x] **Deduplication Logic**: Exact same errors (e.g., "wont" tagged twice) are automatically counted only once.
+- [x] **Scoring Summary**: Real-time counts for Orthographical, Structural, and Readability categories.
+- [x] **Interactive Highlighting**: Tagged text is visually highlighted and tracked in the Findings Log.
+- [x] **Privacy-First**: 100% client-side logic; no automated scanning noise.
 
 ### M2 — Rubric Evidence Assistant
 

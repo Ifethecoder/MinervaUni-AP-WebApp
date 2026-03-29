@@ -5,40 +5,134 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReviewFlow — Minerva University</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Category Popup */
+        #tag-popup {
+            display: none;
+            position: absolute;
+            background: var(--mu-obsidian);
+            color: var(--mu-white);
+            padding: 0.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        #tag-popup button {
+            background: transparent;
+            color: var(--mu-white);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+        
+        #tag-popup button:hover {
+            background: var(--mu-clay);
+            border-color: var(--mu-clay);
+        }
+
+        .highlight-tag {
+            background-color: rgba(240, 135, 30, 0.3);
+            border-bottom: 2px solid var(--mu-tangerine);
+            cursor: help;
+        }
+        
+        .highlight-tag.duplicate {
+            background-color: rgba(120, 115, 110, 0.2);
+            border-bottom-color: var(--mu-ash);
+        }
+
+        #essay-display {
+            user-select: text;
+            -webkit-user-select: text;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="container">
             <h1>ReviewFlow</h1>
-            <p class="subtitle">Efficient and consistent essay evaluation for admissions processors.</p>
+            <p class="subtitle">Manual scoring assistant for admissions processors.</p>
         </div>
     </header>
 
-    <main class="container">
-        <!-- Students will build their app here -->
+    <main class="container" style="max-width: 1200px;">
+        <!-- Input Section -->
         <section id="essay-input-section" class="card">
-            <h2>Start Your Review</h2>
-            <p>Paste an essay below to begin the grammar and rubric evaluation.</p>
+            <h2>Paste Essay</h2>
+            <p>Paste the applicant's essay below to start your review.</p>
             <textarea id="essay-input" placeholder="Paste essay content here..." rows="15" style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid var(--mu-ash); font-family: var(--font-sans); font-size: 1rem; margin-bottom: 1.5rem;"></textarea>
-            <button id="analyze-btn" style="background-color: var(--mu-clay); color: var(--mu-white); padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem;">Analyze Essay</button>
+            <button id="start-btn" style="background-color: var(--mu-clay); color: var(--mu-white); padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem;">Start Review</button>
         </section>
 
+        <!-- Review Section -->
         <section id="analysis-results" style="display: none; margin-top: 2rem;">
-            <h2>Analysis Results</h2>
-            <div id="essay-display" class="card" style="white-space: pre-wrap; margin-bottom: 2rem;"></div>
-            <div id="error-summary" class="card">
-                <h3>Detected Grammar Errors</h3>
-                <ul id="error-list"></ul>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                <div id="essay-column">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h2>Reviewing Essay</h2>
+                        <p style="font-size: 0.9rem; color: var(--mu-clay);">Highlight text to tag an error.</p>
+                    </div>
+                    <div id="essay-display" class="card" style="line-height: 2; font-size: 1.15rem; min-height: 500px; white-space: pre-wrap;"></div>
+                </div>
+                
+                <div id="review-column">
+                    <div class="card" style="position: sticky; top: 1rem;">
+                        <h2>Scoring Summary</h2>
+                        
+                        <div id="summary-counts" style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Orthographical:</span> <strong id="count-ortho">0</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Structural:</span> <strong id="count-struct">0</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Readability:</span> <strong id="count-read">0</strong>
+                            </div>
+                        </div>
+
+                        <hr style="margin: 1rem 0; border: 0; border-top: 1px solid var(--mu-ash);">
+                        
+                        <div id="total-section" style="text-align: center;">
+                            <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted);">Final Grammar Count</div>
+                            <div style="font-size: 3rem; font-weight: 700; color: var(--mu-clay); line-height: 1;" id="total-count">0</div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Repeated identical errors count as 0.</p>
+                        </div>
+
+                        <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid var(--mu-ash);">
+
+                        <div id="findings-log">
+                            <h3>Findings Log</h3>
+                            <ul id="findings-list" style="list-style: none; padding: 0; font-size: 0.85rem; max-height: 300px; overflow-y: auto;"></ul>
+                        </div>
+
+                        <button id="reset-btn" style="margin-top: 2rem; width: 100%; background: none; border: 1px solid var(--mu-clay); color: var(--mu-clay); padding: 0.75rem; border-radius: 4px; cursor: pointer; font-weight: 600;">Discard and Reset</button>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
+
+    <!-- Tag Selection Popup -->
+    <div id="tag-popup">
+        <button data-cat="orthographical">Orthographical</button>
+        <button data-cat="structural">Structural</button>
+        <button data-cat="readability">Readability</button>
+        <button id="cancel-tag" style="color: var(--mu-ash); border-color: transparent;">Cancel</button>
+    </div>
 
     <footer>
         <div class="container footer-content">
             <div class="copyright">
                 &copy; 2026 Minerva University Student Project
             </div>
-            <!-- MANDATORY AI DISCLOSURE (per Minerva Guardrails) -->
             <div class="ai-disclosure">
                 <span class="badge">AI-Assisted</span>
                 Developed with Gemini CLI & Minerva AI Framework
