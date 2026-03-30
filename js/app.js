@@ -64,6 +64,8 @@ function handleStart() {
   }
 
   renderEssay();
+  renderFindingsLog(); // Clear log from previous session
+  updateSummary(); // Reset counts from previous session
   updateUI();
   
   document.getElementById('essay-input-section').style.display = 'none';
@@ -75,6 +77,11 @@ function handleReset() {
     state.essayContent = '';
     state.findings = [];
     document.getElementById('essay-input').value = '';
+    
+    // Explicitly reset UI
+    renderFindingsLog();
+    updateSummary();
+    
     document.getElementById('essay-input-section').style.display = 'block';
     document.getElementById('analysis-results').style.display = 'none';
   }
