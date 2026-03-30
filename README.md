@@ -1,6 +1,6 @@
 # ReviewFlow ✍️🔍
 
-**A manual scoring assistant for admissions processors to evaluate essays with speed, consistency, and human-centered judgment.**
+**A scoring assistant for admissions processors to evaluate essays with speed, consistency, and human-centered judgment.**
 
 ReviewFlow is built to help admissions processors (APs) apply the official Minerva University Grammar Handbook and Writing Rubric efficiently. It automates the "bureaucracy" of grading—counting, deduplicating, and totaling—while leaving the critical evaluative judgment entirely in the hands of the human processor.
 
