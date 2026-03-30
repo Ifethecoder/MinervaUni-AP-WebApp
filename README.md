@@ -1,98 +1,60 @@
-# Minerva University Web App Template 🌍🎓
+# ReviewFlow ✍️🔍
 
-**A high-fidelity, ethical-first template for building learning-oriented web applications.**
+**A manual scoring assistant for admissions processors to evaluate essays with speed, consistency, and human-centered judgment.**
 
-This repository is designed specifically for **Minerva University students, applicants, and staff**. It provides a professional, brand-aligned starting point for building web software that prioritizes human agency, data privacy, and deep learning—all powered by **Gemini CLI**.
-
----
-
-## 🧭 The Minerva Approach
-
-This isn't just a code template; it's a **guided development environment**. Every project built here follows the **Minerva AI Guardrails**:
-
-1.  **Human-Centered Learning**: AI is your "thinking partner," not a substitute. You remain the author and the decision-maker.
-2.  **Accountability**: You are responsible for every line of code and every user experience.
-3.  **Data Privacy (Zero-Trust)**: This template is configured to strictly avoid the processing of sensitive student data (PII).
-4.  **Radical Transparency**: All AI contributions are documented in a mandatory session log, and the app itself includes a visible "AI-Assisted" disclosure.
-5.  **Official Branding**: Includes the official Minerva University Fall 2025 colors (Obsidian, Bone, Clay) and typography standards out of the box.
+ReviewFlow is built to help admissions processors (APs) apply the official Minerva University Grammar Handbook and Writing Rubric efficiently. It automates the "bureaucracy" of grading—counting, deduplicating, and totaling—while leaving the critical evaluative judgment entirely in the hands of the human processor.
 
 ---
 
-## 🚀 Getting Started (Step-by-Step)
+## 🧭 The ReviewFlow Philosophy
 
-You don't need to be an expert in Markdown or CLI to start. Follow these steps:
+Aligned with the **Minerva AI Guardrails**, ReviewFlow follows a "Human-in-the-Loop" architecture:
 
-### 1. Create your Repository
-Click the **"Use this template"** button on GitHub to create a copy in your own account.
-
-### 2. Enable Hosting
-Go to your repository **Settings** → **Pages**.
-- Set **Source** to "Deploy from a branch".
-- Select the `main` branch and `/ (root)` folder.
-- Click **Save**. Your app will be live at `https://[your-username].github.io/[repo-name]`.
-
-### 3. Clone to your Computer
-To work on your project and use Gemini CLI, you need to "clone" the repository to your local machine.
-
-#### 🍎 macOS & 🐧 Linux
-1.  Open **Terminal**.
-2.  Navigate to where you want to save your project (e.g., `cd Documents`).
-3.  Run the clone command:  
-    `git clone https://github.com/your-username/your-repo-name.git`
-4.  Enter the folder:  
-    `cd your-repo-name`
-
-#### 🪟 Windows
-1.  Open **PowerShell** or **Git Bash**.
-2.  Navigate to your folder (e.g., `cd ~\Documents`).
-3.  Run the clone command:  
-    `git clone https://github.com/your-username/your-repo-name.git`
-4.  Enter the folder:  
-    `cd your-repo-name`
-
-*Note: Ensure you have [Git](https://git-scm.com/downloads) and [Gemini CLI](https://github.com/google-gemini/gemini-cli) installed before starting.*
-
-### 4. Start the Interactive Setup
-Once you are inside your project folder in the terminal, start a Gemini session by typing `gemini`. Simply say:
-> *"I have a new project idea."*
-
-**Gemini will then walk you through a stepwise conversation to:**
-- Name your app and define its purpose.
-- Identify your target audience and the "human impact."
-- Plan your first three milestones (M1, M2, M3).
-- **Automatically update** `GEMINI.md` and `SCRATCHPAD.md` for you.
+1.  **Human-Led Judgment**: The app does not "auto-correct" or "auto-grade." The AP identifies errors by highlighting text, ensuring 100% alignment with the handbook's nuances.
+2.  **Smart Deduplication**: Automatically implements **Rule 2** of the Grading Spec: repeated identical errors (e.g., the same misspelled word) are counted only once.
+3.  **Real-Time Scoring**: Provides an instant summary of Orthographical, Structural, and Readability counts as the AP works.
+4.  **Zero-Trust Privacy**: 100% client-side logic. No essay data is ever sent to external servers or AI APIs, ensuring total protection of applicant PII.
+5.  **Official Branding**: Built with the official Minerva University Fall 2025 brand identity.
 
 ---
 
-## 🛠 Key Files & Workflow
+## 🚀 Features
 
-This repository uses three "living documents" to manage your project:
+### Milestone 1: Manual Tagging Assistant (Current)
+- **Highlight & Tag**: Select any text in an essay to instantly categorize it as Orthographical, Structural, or Readability.
+- **Automated Counting**: The app tracks the total grammar count based on your tags.
+- **Intelligent Deduplication**: If you tag the same error multiple times, the app identifies it as a "REPEAT" and adds 0 to the final score.
+- **Findings Log**: A transparent history of every tagged error for easy review.
 
--   **`GEMINI.md`**: Your project's identity and standing instructions. Gemini reads this first to understand your goals and constraints.
--   **`SCRATCHPAD.md`**: Your active workspace. It tracks what you're working on right now, your next actions, and your session logs (including AI disclosures).
--   **`DECISIONS.md`**: Your Architecture Decision Record (ADR). Every time you make a big choice, Gemini logs it here with a "Guardrails Alignment" check.
-
----
-
-## ⌨️ Useful Commands
-
-While working with Gemini CLI, you can use these shortcuts:
-
-| Command | Purpose |
-| :--- | :--- |
-| `/status` | Get a quick summary of where your project stands. |
-| `/milestone` | Mark a stage as complete and run a "Values Check" (Learning, Agency, Privacy). |
-| `/decision` | Log a technical choice to `DECISIONS.md` with an ethical audit. |
+### Coming Soon
+- **M2: Rubric Evidence Assistant**: Qualitative highlighting for specific rubric criteria.
+- **M3: Full Review Workflow & Export**: Generate final reports and export results for submission.
 
 ---
 
-## 🎨 Tech Stack (The "Minerva Simple" Stack)
+## 🛠 Tech Stack
 
 -   **Frontend**: Vanilla HTML5, CSS3, and JavaScript (No frameworks, no build steps).
--   **Styling**: Official Minerva Brand Standards (Fall 2025).
--   **Hosting**: GitHub Pages (Static, $0 cost).
--   **Philosophy**: Clarity over cleverness. Accessible (WCAG AA) and Responsive by default.
+-   **Logic**: Browser-native `window.getSelection()` API for high-performance tagging.
+-   **Styling**: Minerva Brand Standards (Obsidian, Bone, Clay).
+-   **Hosting**: GitHub Pages (Static).
 
 ---
 
-**Ready to build something that matters?** Open your terminal and tell Gemini: *"Start a new project."*
+## 📖 Source of Truth
+
+- **`GRAMMAR.md`**: The official digital "Constitution" for how grammar errors are counted in this app.
+- **`DECISIONS.md`**: A log of every major architectural choice, including the pivot to a manual-first workflow.
+- **`SCRATCHPAD.md`**: The active development log and milestone tracker.
+
+---
+
+## 🎨 Minerva Brand Identity
+ReviewFlow adheres to the Fall 2025 Minerva University Standards:
+- **Primary Colors**: Obsidian (#000000), Bone (#F0EBE6), Clay (#905112).
+- **Typography**: Serif for headings (Chronicle Display), Sans-serif for UI (Neue Haas Grotesk).
+
+---
+
+**Developed as a Minerva University Student Project.**  
+*AI-Assisted Development via Gemini CLI & Minerva AI Framework.*
