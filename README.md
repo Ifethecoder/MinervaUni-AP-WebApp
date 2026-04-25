@@ -1,8 +1,8 @@
 # ReviewFlow ✍️🔍
 
-**A scoring assistant for admissions processors to evaluate essays with speed, consistency, and human-centered judgment.**
+**A manual grammar review assistant for admissions processors who need speed, consistency, and human-centered judgment.**
 
-ReviewFlow is built to help admissions processors (APs) apply the official Minerva University Grammar Handbook and Writing Rubric efficiently. It automates the "bureaucracy" of grading—counting, deduplicating, and totaling—while leaving the critical evaluative judgment entirely in the hands of the human processor.
+ReviewFlow is built to help admissions processors (APs) apply the official Minerva University Grammar Handbook efficiently. It automates the "bureaucracy" of review — counting, deduplicating, saving, and exporting findings — while leaving the critical evaluative judgment entirely in the hands of the human processor.
 
 ---
 
@@ -20,15 +20,18 @@ Aligned with the **Minerva AI Guardrails**, ReviewFlow follows a "Human-in-the-L
 
 ## 🚀 Features
 
-### Milestone 1: Manual Tagging Assistant (Current)
+### Milestone 1: Manual Tagging Assistant (Current Scope)
 - **Highlight & Tag**: Select any text in an essay to instantly categorize it as Orthographical, Structural, or Readability.
 - **Automated Counting**: The app tracks the total grammar count based on your tags.
 - **Intelligent Deduplication**: If you tag the same error multiple times, the app identifies it as a "REPEAT" and adds 0 to the final score.
-- **Findings Log**: A transparent history of every tagged error for easy review.
+- **Editable Findings Log**: Reviewers can retag, delete, undo, and manually override a repeat when context requires it.
+- **Draft Recovery**: Active reviews are saved locally in the browser so work can be resumed on the same device.
+- **Filtering & Export**: Findings can be filtered by category/status and exported as a plain-text review summary.
+- **Keyboard Support**: Popup tagging supports keyboard shortcuts for fast manual review.
 
-### Coming Soon
-- **M2: Rubric Evidence Assistant**: Qualitative highlighting for specific rubric criteria.
-- **M3: Full Review Workflow & Export**: Generate final reports and export results for submission.
+### Current Focus
+- **Refine and Harden M1**: Improve reliability, usability, and maintainability of the manual grammar workflow.
+- **No Planned M2 Expansion**: The project is intentionally staying focused on manual grammar review rather than expanding into rubric evidence tooling.
 
 ---
 
@@ -36,6 +39,7 @@ Aligned with the **Minerva AI Guardrails**, ReviewFlow follows a "Human-in-the-L
 
 -   **Frontend**: Vanilla HTML5, CSS3, and JavaScript (No frameworks, no build steps).
 -   **Logic**: Browser-native `window.getSelection()` API for high-performance tagging.
+-   **State**: In-memory app state with local `localStorage` draft recovery.
 -   **Styling**: Minerva Brand Standards (Obsidian, Bone, Clay).
 -   **Hosting**: GitHub Pages (Static).
 

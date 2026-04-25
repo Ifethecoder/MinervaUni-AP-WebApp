@@ -92,3 +92,17 @@
 - **Responsibility**: AP remains the sole evaluator.
 - **Values**: Accountability and Agency.
 
+## Decision 006 — Keep Project Scope Focused on Manual Grammar Review
+
+**Date**: 2026-04-25
+**Decision**: Keep ReviewFlow focused on refining and hardening the manual grammar-review workflow instead of expanding into a rubric-evidence milestone.
+**Rationale**: The current product is strongest when it reduces bookkeeping while preserving human judgment. Expanding into rubric evidence would widen the surface area, introduce new UX complexity, and distract from stabilizing the existing M1 workflow that users actually rely on.
+**Alternatives considered**: Continue toward an M2 rubric-evidence assistant; broaden the product into a more general essay-evaluation platform
+**Trade-offs**: We give up short-term feature expansion and a broader roadmap. We gain a clearer product identity, lower maintenance burden, and more time to strengthen reliability, accessibility, and reviewer confidence in the current workflow.
+
+**Guardrails Alignment**:
+- **Privacy & IP**: Keeps the tool narrowly scoped and fully client-side, reducing pressure to process more sensitive evaluation data.
+- **Disclosure**: Makes the tool's role easier to explain: it supports manual grammar review rather than broader essay judgment.
+- **Responsibility**: Reinforces that APs remain responsible for the evaluation itself while the app handles bookkeeping.
+- **Bias & Trust**: Avoids drifting toward more interpretive or subjective automation.
+- **Values**: Clarity, accountability, and human agency.

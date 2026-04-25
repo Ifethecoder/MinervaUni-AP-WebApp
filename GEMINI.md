@@ -3,9 +3,9 @@
 ## Project Identity
 
 **Name**: ReviewFlow
-**Purpose**: Help admissions processors evaluate essays faster and more consistently by automatically surfacing countable grammar errors and highlighting rubric-based evidence.
-**Audience**: Admissions Processors (APs) who already understand the grammar handbook and writing rubric, and need to efficiently process large volumes of essays while staying aligned with evaluation rules.
-**Human context**: Instead of manually scanning for errors and mentally tracking rubric evidence, APs can focus on judgment and decision-making, with less cognitive load and more confidence in their evaluations.
+**Purpose**: Help admissions processors evaluate essays faster and more consistently through a manual highlight-and-tag workflow that handles counting, deduplication, saving, and export.
+**Audience**: Admissions Processors (APs) who already understand the grammar handbook and need to efficiently process essays while staying aligned with evaluation rules.
+**Human context**: Instead of manually counting findings, tracking repeats, and reconstructing totals, APs can focus on judgment and decision-making with less cognitive load and more confidence in their review.
 
 **GitHub repo**: [Ifethecoder/MinervaUni-AP-WebApp]
 **Live URL**: [https://Ifethecoder.github.io/MinervaUni-AP-WebApp]
@@ -14,7 +14,7 @@
 
 - **Frontend**: Vanilla HTML, CSS, JavaScript — no framework, no build step
 - **Hosting**: GitHub Pages (static only — no server-side code, no databases)
-- **Data / Auth**: localStorage only
+- **Data / Auth**: localStorage only for non-sensitive local draft recovery
 - **Cost**: $0
 
 
@@ -115,3 +115,7 @@ Before implementing any feature, evaluate it against these criteria. If a featur
 - DECISIONS.md is append-only — never edit or remove past decisions
 - Git history is long-term memory — commit meaningful, readable snapshots
 - If context is ambiguous, read SCRATCHPAD.md and DECISIONS.md before asking
+
+## Current Scope Note
+
+The project is intentionally staying focused on the manual grammar-review workflow. Do not steer work toward rubric evidence, automated grammar detection, or a separate M2 track unless the user explicitly changes scope.
