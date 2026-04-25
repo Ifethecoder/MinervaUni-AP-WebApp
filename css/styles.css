@@ -155,6 +155,33 @@ footer {
     resize: vertical;
 }
 
+.draft-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--mu-ash);
+    border-radius: 8px;
+    background: var(--mu-ivory);
+}
+
+.draft-banner-text {
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+
+.draft-banner-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.draft-button {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+}
+
 .essay-display {
     line-height: 2;
     font-size: 1.15rem;
@@ -219,6 +246,21 @@ footer {
     overflow-y: auto;
 }
 
+.filters-bar {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.filter-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
 .button {
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
@@ -261,6 +303,10 @@ footer {
 
 .button-reset {
     margin-top: 2rem;
+}
+
+.button-export {
+    margin-top: 1rem;
 }
 
 .popup-cancel {
@@ -349,6 +395,12 @@ footer {
     font-size: 0.75rem;
 }
 
+.finding-empty {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding: 0.75rem 0;
+}
+
 .finding-controls {
     display: flex;
     gap: 0.5rem;
@@ -407,5 +459,15 @@ footer {
     .section-header {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .draft-banner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .draft-banner-actions {
+        width: 100%;
+        flex-wrap: wrap;
     }
 }

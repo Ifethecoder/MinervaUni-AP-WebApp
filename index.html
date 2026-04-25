@@ -67,6 +67,13 @@
         <section id="essay-input-section" class="card">
             <h2>Paste Essay</h2>
             <p>Paste the applicant's essay below to start your review.</p>
+            <div id="draft-banner" class="draft-banner" hidden>
+                <span class="draft-banner-text">A saved review draft is available on this device.</span>
+                <div class="draft-banner-actions">
+                    <button id="resume-draft-btn" class="button button-dark draft-button" type="button">Resume Draft</button>
+                    <button id="discard-draft-btn" class="button button-outline draft-button" type="button">Discard Draft</button>
+                </div>
+            </div>
             <textarea id="essay-input" class="essay-input" placeholder="Paste essay content here..." rows="15"></textarea>
             <button id="start-btn" class="button button-primary">Start Review</button>
         </section>
@@ -110,9 +117,30 @@
 
                         <div id="findings-log">
                             <h3>Findings Log</h3>
+                            <div class="filters-bar">
+                                <label class="filter-label">
+                                    Category
+                                    <select id="filter-category" class="finding-select">
+                                        <option value="all">All</option>
+                                        <option value="orthographical">Orthographical</option>
+                                        <option value="structural">Structural</option>
+                                        <option value="readability">Readability</option>
+                                    </select>
+                                </label>
+                                <label class="filter-label">
+                                    Status
+                                    <select id="filter-status" class="finding-select">
+                                        <option value="all">All</option>
+                                        <option value="new">Counted</option>
+                                        <option value="duplicate">Repeats</option>
+                                        <option value="override">Overrides</option>
+                                    </select>
+                                </label>
+                            </div>
                             <ul id="findings-list" class="findings-list"></ul>
                         </div>
 
+                        <button id="export-btn" class="button button-outline button-block button-export" type="button">Export Review</button>
                         <button id="undo-btn" class="button button-dark button-block button-undo" disabled>Undo Last Action</button>
                         <button id="reset-btn" class="button button-outline button-block button-reset">Discard and Reset</button>
                     </div>

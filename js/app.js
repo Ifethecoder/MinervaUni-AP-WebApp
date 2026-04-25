@@ -3,12 +3,26 @@
  * Manual Tagging Workflow
  */
 
+const STORAGE_KEY = 'reviewflow-active-review-v1';
+const CATEGORY_SHORTCUTS = {
+  o: 'orthographical',
+  s: 'structural',
+  r: 'readability',
+  1: 'orthographical',
+  2: 'structural',
+  3: 'readability'
+};
+
 const state = {
   essayContent: '',
   findings: [], // Each finding: { id, text, start, end, category, isDuplicate, duplicateOf, countAsNew }
   currentSelection: null, // Temporary selection before tagging
   nextFindingId: 1,
-  history: []
+  history: [],
+  filters: {
+    category: 'all',
+    status: 'all'
+  }
 };
 
 // ============================================================
@@ -19,6 +33,11 @@ function init() {
   const startBtn = document.getElementById('start-btn');
   const resetBtn = document.getElementById('reset-btn');
   const undoBtn = document.getElementById('undo-btn');
+  const exportBtn = document.getElementById('export-btn');
+  const resumeDraftBtn = document.getElementById('resume-draft-btn');
+  const discardDraftBtn = document.getElementById('discard-draft-btn');
+  const filterCategory = document.getElementById('filter-category');
+  const filterStatus = document.getElementById('filter-status');
   const essayDisplay = document.getElementById('essay-display');
   const findingsList = document.getElementById('findings-list');
   const tagPopup = document.getElementById('tag-popup');
@@ -26,6 +45,11 @@ function init() {
   if (startBtn) startBtn.addEventListener('click', handleStart);
   if (resetBtn) resetBtn.addEventListener('click', handleReset);
   if (undoBtn) undoBtn.addEventListener('click', handleUndo);
+  if (exportBtn) exportBtn.addEventListener('click', handleExport);
+  if (resumeDraftBtn) resumeDraftBtn.addEventListener('click', handleResumeDraft);
+  if (discardDraftBtn) discardDraftBtn.addEventListener('click', handleDiscardDraft);
+  if (filterCategory) filterCategory.addEventListener('change', handleFilterChange);
+  if (filterStatus) filterStatus.addEventListener('change', handleFilterChange);
 
   // Handle Selection
   if (essayDisplay) {
@@ -57,6 +81,9 @@ function init() {
     }
   });
 
+  document.addEventListener('keydown', handleKeydown);
+  updateDraftBanner();
+
   console.log('[ReviewFlow] Manual Tagging initialized');
 }
 
@@ -79,6 +106,7 @@ function handleStart() {
   renderFindingsLog(); // Clear log from previous session
   updateSummary(); // Reset counts from previous session
   updateUI();
+  persistState();
   
   document.getElementById('essay-input-section').style.display = 'none';
   document.getElementById('analysis-results').style.display = 'block';
@@ -95,6 +123,8 @@ function handleReset() {
     
     document.getElementById('essay-input-section').style.display = 'block';
     document.getElementById('analysis-results').style.display = 'none';
+    clearPersistedState();
+    updateDraftBanner();
   }
 }
 
@@ -164,6 +194,7 @@ function addFinding(category) {
   renderEssay();
   renderFindingsLog();
   updateSummary();
+  persistState();
 }
 
 function handleUndo() {
@@ -177,6 +208,7 @@ function handleUndo() {
   renderEssay();
   renderFindingsLog();
   updateSummary();
+  persistState();
 }
 
 function handleFindingListClick(e) {
@@ -201,6 +233,69 @@ function handleFindingCategoryChange(e) {
   retagFinding(findingId, e.target.value);
 }
 
+function handleFilterChange() {
+  state.filters.category = document.getElementById('filter-category').value;
+  state.filters.status = document.getElementById('filter-status').value;
+  renderFindingsLog();
+  persistState();
+}
+
+function handleExport() {
+  if (!state.essayContent) return;
+
+  const text = buildExportText();
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0, 10);
+  link.href = url;
+  link.download = `reviewflow-${stamp}.txt`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function handleResumeDraft() {
+  const draft = loadPersistedState();
+  if (!draft) return;
+
+  restoreState(draft);
+  document.getElementById('essay-input-section').style.display = 'none';
+  document.getElementById('analysis-results').style.display = 'block';
+  renderEssay();
+  renderFindingsLog();
+  updateSummary();
+  syncFilterControls();
+}
+
+function handleDiscardDraft() {
+  clearPersistedState();
+  updateDraftBanner();
+}
+
+function handleKeydown(e) {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') {
+    e.preventDefault();
+    handleUndo();
+    return;
+  }
+
+  if (!isPopupVisible() || !state.currentSelection) return;
+
+  const key = e.key.toLowerCase();
+  if (key === 'escape') {
+    hidePopup();
+    state.currentSelection = null;
+    window.getSelection().removeAllRanges();
+    return;
+  }
+
+  const category = CATEGORY_SHORTCUTS[key];
+  if (!category) return;
+
+  e.preventDefault();
+  addFinding(category);
+}
+
 function deleteFinding(findingId) {
   const findingExists = state.findings.some(f => f.id === findingId);
   if (!findingExists) return;
@@ -212,6 +307,7 @@ function deleteFinding(findingId) {
   renderEssay();
   renderFindingsLog();
   updateSummary();
+  persistState();
 }
 
 function retagFinding(findingId, category) {
@@ -226,6 +322,7 @@ function retagFinding(findingId, category) {
   renderEssay();
   renderFindingsLog();
   updateSummary();
+  persistState();
 }
 
 function toggleDuplicateOverride(findingId) {
@@ -237,6 +334,7 @@ function toggleDuplicateOverride(findingId) {
   renderEssay();
   renderFindingsLog();
   updateSummary();
+  persistState();
 }
 
 function showPopup(x, y) {
@@ -279,7 +377,20 @@ function renderFindingsLog() {
   const list = document.getElementById('findings-list');
   list.innerHTML = '';
 
-  state.findings.forEach((f, i) => {
+  const visibleFindings = getFilteredFindings();
+
+  if (visibleFindings.length === 0) {
+    const emptyItem = document.createElement('li');
+    emptyItem.className = 'finding-empty';
+    emptyItem.textContent = state.findings.length === 0
+      ? 'No findings yet.'
+      : 'No findings match the current filters.';
+    list.appendChild(emptyItem);
+    updateUndoButton();
+    return;
+  }
+
+  visibleFindings.forEach(f => {
     const li = document.createElement('li');
     li.className = 'finding-item';
 
@@ -361,30 +472,20 @@ function renderFindingsLog() {
 }
 
 function updateSummary() {
-  const counts = {
-    orthographical: 0,
-    structural: 0,
-    readability: 0
-  };
-
-  state.findings.forEach(f => {
-    if (!f.isDuplicate || f.countAsNew) {
-      counts[f.category]++;
-    }
-  });
+  const counts = getSummaryCounts();
 
   document.getElementById('count-ortho').textContent = counts.orthographical;
   document.getElementById('count-struct').textContent = counts.structural;
   document.getElementById('count-read').textContent = counts.readability;
 
-  const total = counts.orthographical + counts.structural + counts.readability;
-  document.getElementById('total-count').textContent = total;
+  document.getElementById('total-count').textContent = counts.total;
   updateUndoButton();
 }
 
 function updateUI() {
   // Reset scroll and view state
   window.scrollTo(0, 0);
+  syncFilterControls();
 }
 
 // ============================================================
@@ -466,10 +567,143 @@ function resetReviewState() {
   state.currentSelection = null;
   state.nextFindingId = 1;
   state.history = [];
+  state.filters = {
+    category: 'all',
+    status: 'all'
+  };
 }
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function getFilteredFindings() {
+  return state.findings.filter(finding => {
+    const categoryMatch = state.filters.category === 'all' || finding.category === state.filters.category;
+    const status = getFindingStatus(finding);
+    const statusMatch = state.filters.status === 'all' || status === state.filters.status;
+    return categoryMatch && statusMatch;
+  });
+}
+
+function getFindingStatus(finding) {
+  if (finding.isDuplicate && finding.countAsNew) return 'override';
+  if (finding.isDuplicate) return 'duplicate';
+  return 'new';
+}
+
+function persistState() {
+  if (!state.essayContent) {
+    clearPersistedState();
+    return;
+  }
+
+  const payload = {
+    essayContent: state.essayContent,
+    findings: cloneFindings(state.findings),
+    nextFindingId: state.nextFindingId,
+    filters: { ...state.filters }
+  };
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  updateDraftBanner();
+}
+
+function loadPersistedState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (error) {
+    console.warn('[ReviewFlow] Could not load saved draft', error);
+    return null;
+  }
+}
+
+function clearPersistedState() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+function restoreState(savedState) {
+  resetReviewState();
+  state.essayContent = savedState.essayContent || '';
+  state.findings = Array.isArray(savedState.findings) ? savedState.findings.map(f => ({
+    countAsNew: false,
+    ...f
+  })) : [];
+  state.nextFindingId = savedState.nextFindingId || 1;
+  state.filters = {
+    category: savedState.filters?.category || 'all',
+    status: savedState.filters?.status || 'all'
+  };
+
+  recalculateDuplicates();
+  document.getElementById('essay-input').value = state.essayContent;
+  persistState();
+  updateDraftBanner();
+}
+
+function updateDraftBanner() {
+  const draftBanner = document.getElementById('draft-banner');
+  if (!draftBanner) return;
+  draftBanner.hidden = !loadPersistedState();
+}
+
+function syncFilterControls() {
+  const filterCategory = document.getElementById('filter-category');
+  const filterStatus = document.getElementById('filter-status');
+  if (filterCategory) filterCategory.value = state.filters.category;
+  if (filterStatus) filterStatus.value = state.filters.status;
+}
+
+function buildExportText() {
+  const counts = getSummaryCounts();
+  const lines = [
+    'ReviewFlow Export',
+    '',
+    `Generated: ${new Date().toLocaleString()}`,
+    '',
+    'Summary',
+    `Orthographical: ${counts.orthographical}`,
+    `Structural: ${counts.structural}`,
+    `Readability: ${counts.readability}`,
+    `Total: ${counts.total}`,
+    '',
+    'Findings'
+  ];
+
+  state.findings.forEach((finding, index) => {
+    const status = getDuplicateLabel(finding);
+    lines.push(`${index + 1}. [${capitalize(finding.category)}] "${finding.text}" - ${status}`);
+  });
+
+  if (state.findings.length === 0) {
+    lines.push('No findings recorded.');
+  }
+
+  return lines.join('\n');
+}
+
+function getSummaryCounts() {
+  const counts = {
+    orthographical: 0,
+    structural: 0,
+    readability: 0
+  };
+
+  state.findings.forEach(f => {
+    if (!f.isDuplicate || f.countAsNew) {
+      counts[f.category]++;
+    }
+  });
+
+  return {
+    ...counts,
+    total: counts.orthographical + counts.structural + counts.readability
+  };
+}
+
+function isPopupVisible() {
+  return document.getElementById('tag-popup').style.display === 'flex';
 }
 
 // ============================================================
