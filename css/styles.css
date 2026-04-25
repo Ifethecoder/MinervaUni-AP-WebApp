@@ -155,3 +155,69 @@ footer {
 .error-item.duplicate .badge {
     background: var(--mu-ash);
 }
+
+.finding-item {
+    margin-bottom: 0.75rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--mu-ash);
+}
+
+.finding-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.finding-text {
+    flex: 1;
+}
+
+.finding-category {
+    color: var(--mu-clay);
+}
+
+.finding-status {
+    font-size: 0.7rem;
+    white-space: nowrap;
+}
+
+.finding-status.new {
+    color: var(--mu-clay);
+}
+
+.finding-status.duplicate {
+    color: var(--mu-graphite);
+}
+
+.finding-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.finding-select,
+.finding-delete-btn {
+    font: inherit;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    padding: 0.35rem 0.5rem;
+}
+
+.finding-select {
+    border: 1px solid var(--mu-ash);
+    background: var(--mu-white);
+    color: var(--text-main);
+}
+
+.finding-delete-btn {
+    border: 1px solid var(--mu-clay);
+    background: transparent;
+    color: var(--mu-clay);
+    cursor: pointer;
+}
+
+.finding-delete-btn:hover,
+.finding-delete-btn:focus-visible {
+    background: var(--mu-bone);
+}
