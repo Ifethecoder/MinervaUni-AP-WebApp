@@ -5,7 +5,7 @@
 
 const state = {
   essayContent: '',
-  findings: [], // Each finding: { id, text, start, end, category, isDuplicate, duplicateOf }
+  findings: [], // Each finding: { id, text, start, end, category, isDuplicate, duplicateOf, countAsNew }
   currentSelection: null, // Temporary selection before tagging
   nextFindingId: 1,
   history: []
@@ -152,7 +152,8 @@ function addFinding(category) {
     end,
     category,
     isDuplicate: false,
-    duplicateOf: null
+    duplicateOf: null,
+    countAsNew: false
   });
   recalculateDuplicates();
 
@@ -180,10 +181,17 @@ function handleUndo() {
 
 function handleFindingListClick(e) {
   const deleteBtn = e.target.closest('[data-action="delete"]');
-  if (!deleteBtn) return;
+  if (deleteBtn) {
+    const findingId = Number(deleteBtn.getAttribute('data-finding-id'));
+    deleteFinding(findingId);
+    return;
+  }
 
-  const findingId = Number(deleteBtn.getAttribute('data-finding-id'));
-  deleteFinding(findingId);
+  const overrideBtn = e.target.closest('[data-action="toggle-duplicate-override"]');
+  if (!overrideBtn) return;
+
+  const findingId = Number(overrideBtn.getAttribute('data-finding-id'));
+  toggleDuplicateOverride(findingId);
 }
 
 function handleFindingCategoryChange(e) {
@@ -212,8 +220,20 @@ function retagFinding(findingId, category) {
 
   saveHistory();
   finding.category = category;
+  finding.countAsNew = false;
   recalculateDuplicates();
 
+  renderEssay();
+  renderFindingsLog();
+  updateSummary();
+}
+
+function toggleDuplicateOverride(findingId) {
+  const finding = state.findings.find(f => f.id === findingId);
+  if (!finding || !finding.isDuplicate) return;
+
+  saveHistory();
+  finding.countAsNew = !finding.countAsNew;
   renderEssay();
   renderFindingsLog();
   updateSummary();
@@ -310,10 +330,30 @@ function renderFindingsLog() {
     deleteBtn.textContent = 'Delete';
 
     controls.appendChild(select);
+
+    if (f.isDuplicate) {
+      const overrideBtn = document.createElement('button');
+      overrideBtn.type = 'button';
+      overrideBtn.className = 'finding-override-btn';
+      overrideBtn.setAttribute('data-action', 'toggle-duplicate-override');
+      overrideBtn.setAttribute('data-finding-id', String(f.id));
+      overrideBtn.textContent = f.countAsNew ? 'Treat as Repeat' : 'Count Anyway';
+      controls.appendChild(overrideBtn);
+    }
+
     controls.appendChild(deleteBtn);
 
-    li.appendChild(topRow);
-    li.appendChild(controls);
+    if (f.isDuplicate) {
+      const note = document.createElement('div');
+      note.className = 'finding-note';
+      note.textContent = getDuplicateExplanation(f);
+      li.appendChild(topRow);
+      li.appendChild(note);
+      li.appendChild(controls);
+    } else {
+      li.appendChild(topRow);
+      li.appendChild(controls);
+    }
     list.appendChild(li);
   });
 
@@ -328,7 +368,7 @@ function updateSummary() {
   };
 
   state.findings.forEach(f => {
-    if (!f.isDuplicate) {
+    if (!f.isDuplicate || f.countAsNew) {
       counts[f.category]++;
     }
   });
@@ -386,6 +426,7 @@ function recalculateDuplicates() {
     } else {
       finding.isDuplicate = false;
       finding.duplicateOf = null;
+      finding.countAsNew = false;
       seenMap.set(key, finding.id);
     }
   });
@@ -393,13 +434,24 @@ function recalculateDuplicates() {
 
 function getDuplicateLabel(finding) {
   const originalIndex = state.findings.findIndex(f => f.id === finding.duplicateOf);
+  if (finding.countAsNew) {
+    return originalIndex >= 0 ? `OVERRIDE of #${originalIndex + 1} (+1)` : 'OVERRIDE (+1)';
+  }
   return originalIndex >= 0 ? `REPEAT of #${originalIndex + 1} (0)` : 'REPEAT (0)';
 }
 
 function getFindingTitle(finding) {
-  return finding.isDuplicate
+  return finding.isDuplicate && !finding.countAsNew
     ? `${finding.category} (repeat)`
     : `${finding.category} (+1)`;
+}
+
+function getDuplicateExplanation(finding) {
+  const originalIndex = state.findings.findIndex(f => f.id === finding.duplicateOf);
+  const originalLabel = originalIndex >= 0 ? `finding #${originalIndex + 1}` : 'an earlier finding';
+  return finding.countAsNew
+    ? `Manually counted even though it matches ${originalLabel}.`
+    : `Auto-marked as a repeat because it matches ${originalLabel} in the same category.`;
 }
 
 function updateUndoButton() {

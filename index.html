@@ -62,59 +62,59 @@
         </div>
     </header>
 
-    <main class="container" style="max-width: 1200px;">
+    <main class="container app-shell">
         <!-- Input Section -->
         <section id="essay-input-section" class="card">
             <h2>Paste Essay</h2>
             <p>Paste the applicant's essay below to start your review.</p>
-            <textarea id="essay-input" placeholder="Paste essay content here..." rows="15" style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid var(--mu-ash); font-family: var(--font-sans); font-size: 1rem; margin-bottom: 1.5rem;"></textarea>
-            <button id="start-btn" style="background-color: var(--mu-clay); color: var(--mu-white); padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem;">Start Review</button>
+            <textarea id="essay-input" class="essay-input" placeholder="Paste essay content here..." rows="15"></textarea>
+            <button id="start-btn" class="button button-primary">Start Review</button>
         </section>
 
         <!-- Review Section -->
-        <section id="analysis-results" style="display: none; margin-top: 2rem;">
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+        <section id="analysis-results" class="analysis-results">
+            <div class="review-layout">
                 <div id="essay-column">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div class="section-header">
                         <h2>Reviewing Essay</h2>
-                        <p style="font-size: 0.9rem; color: var(--mu-clay);">Highlight text to tag an error.</p>
+                        <p class="section-tip">Highlight text to tag an error.</p>
                     </div>
-                    <div id="essay-display" class="card" style="line-height: 2; font-size: 1.15rem; min-height: 500px; white-space: pre-wrap;"></div>
+                    <div id="essay-display" class="card essay-display"></div>
                 </div>
                 
                 <div id="review-column">
-                    <div class="card" style="position: sticky; top: 1rem;">
+                    <div class="card review-sidebar">
                         <h2>Scoring Summary</h2>
                         
-                        <div id="summary-counts" style="margin-bottom: 1.5rem;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <div id="summary-counts" class="summary-counts">
+                            <div class="summary-row">
                                 <span>Orthographical:</span> <strong id="count-ortho">0</strong>
                             </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <div class="summary-row">
                                 <span>Structural:</span> <strong id="count-struct">0</strong>
                             </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <div class="summary-row">
                                 <span>Readability:</span> <strong id="count-read">0</strong>
                             </div>
                         </div>
 
-                        <hr style="margin: 1rem 0; border: 0; border-top: 1px solid var(--mu-ash);">
+                        <hr class="section-divider">
                         
-                        <div id="total-section" style="text-align: center;">
-                            <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted);">Final Grammar Count</div>
-                            <div style="font-size: 3rem; font-weight: 700; color: var(--mu-clay); line-height: 1;" id="total-count">0</div>
-                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Repeated identical errors count as 0.</p>
+                        <div id="total-section" class="total-section">
+                            <div class="total-label">Final Grammar Count</div>
+                            <div class="total-count" id="total-count">0</div>
+                            <p class="total-note">Repeated identical errors count as 0 unless you manually override them.</p>
                         </div>
 
-                        <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid var(--mu-ash);">
+                        <hr class="section-divider section-divider-large">
 
                         <div id="findings-log">
                             <h3>Findings Log</h3>
-                            <ul id="findings-list" style="list-style: none; padding: 0; font-size: 0.85rem; max-height: 300px; overflow-y: auto;"></ul>
+                            <ul id="findings-list" class="findings-list"></ul>
                         </div>
 
-                        <button id="undo-btn" style="margin-top: 1rem; width: 100%; background-color: var(--mu-obsidian); color: var(--mu-white); border: none; padding: 0.75rem; border-radius: 4px; cursor: pointer; font-weight: 600;" disabled>Undo Last Action</button>
-                        <button id="reset-btn" style="margin-top: 2rem; width: 100%; background: none; border: 1px solid var(--mu-clay); color: var(--mu-clay); padding: 0.75rem; border-radius: 4px; cursor: pointer; font-weight: 600;">Discard and Reset</button>
+                        <button id="undo-btn" class="button button-dark button-block button-undo" disabled>Undo Last Action</button>
+                        <button id="reset-btn" class="button button-outline button-block button-reset">Discard and Reset</button>
                     </div>
                 </div>
             </div>
@@ -126,7 +126,7 @@
         <button data-cat="orthographical">Orthographical</button>
         <button data-cat="structural">Structural</button>
         <button data-cat="readability">Readability</button>
-        <button id="cancel-tag" style="color: var(--mu-ash); border-color: transparent;">Cancel</button>
+        <button id="cancel-tag" class="popup-cancel">Cancel</button>
     </div>
 
     <footer>
