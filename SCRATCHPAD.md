@@ -8,7 +8,7 @@
 
 **Next actions**:
 - [ ] Run a focused browser QA pass on start, tag, duplicate, override, retag, delete, undo, reset, resume draft, filters, export, and keyboard shortcuts
-- [ ] Refactor `js/app.js` into clearer sections or lightweight modules without changing behavior
+- [ ] Run an accessibility pass on labels, popup focus behavior, keyboard flow, and mobile layout
 - [ ] Confirm GitHub Pages is enabled and test the live deployment once published
 
 **Open questions**:
@@ -44,7 +44,7 @@
 ### M1.1 — Hardening and Maintenance
 
 - [ ] End-to-end browser QA pass for the full M1 workflow
-- [ ] Refactor `js/app.js` for maintainability
+- [ ] Accessibility and keyboard QA pass
 - [ ] Verify mobile layout and keyboard accessibility
 - [ ] Confirm deployment and live-site behavior
 
@@ -75,6 +75,7 @@
 - Moved major inline UI styling into reusable CSS classes.
 - Added local draft recovery, findings filters, export, and popup keyboard shortcuts.
 - Changed draft recovery to explicit opt-in so essay text is not stored locally by default.
+- Refactored `js/app.js` into clearer sections for DOM access, event handling, rendering, duplicate logic, and persistence.
 - Verified JavaScript syntax with `node --check js/app.js`.
 **Learning Reflection**: M1 became substantially more usable without changing the app's core philosophy. The best improvements were the ones that reduced reviewer friction while preserving human judgment.
 **Session Link/Context**: Post-M1 stabilization pass focused on maintainability and reviewer productivity.
