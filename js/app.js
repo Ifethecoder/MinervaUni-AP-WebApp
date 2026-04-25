@@ -20,6 +20,9 @@ const state = {
   currentSelection: null, // Temporary selection before tagging
   nextFindingId: 1,
   history: [],
+  preferences: {
+    saveDraft: false
+  },
   filters: {
     category: 'all',
     status: 'all'
@@ -50,6 +53,7 @@ function cacheDomElements() {
   dom.filterCategory = document.getElementById('filter-category');
   dom.filterStatus = document.getElementById('filter-status');
   dom.essayInput = document.getElementById('essay-input');
+  dom.saveDraftOptIn = document.getElementById('save-draft-opt-in');
   dom.essayDisplay = document.getElementById('essay-display');
   dom.findingsList = document.getElementById('findings-list');
   dom.tagPopup = document.getElementById('tag-popup');
@@ -93,6 +97,7 @@ function handleStart() {
   state.essayContent = dom.essayInput.value;
   state.currentSelection = null;
   state.history = [];
+  state.preferences.saveDraft = Boolean(dom.saveDraftOptIn?.checked);
 
   if (state.essayContent.trim() === '') {
     alert('Please paste an essay first.');
@@ -109,6 +114,7 @@ function handleReset() {
 
   resetReviewState();
   dom.essayInput.value = '';
+  if (dom.saveDraftOptIn) dom.saveDraftOptIn.checked = false;
   hideReviewScreen();
   refreshReviewUI();
   clearPersistedState();
@@ -631,8 +637,9 @@ function saveHistory() {
 }
 
 function persistState() {
-  if (!state.essayContent) {
+  if (!state.essayContent || !state.preferences.saveDraft) {
     clearPersistedState();
+    updateDraftBanner();
     return;
   }
 
@@ -640,6 +647,7 @@ function persistState() {
     essayContent: state.essayContent,
     findings: cloneFindings(state.findings),
     nextFindingId: state.nextFindingId,
+    preferences: { ...state.preferences },
     filters: { ...state.filters }
   };
 
@@ -669,6 +677,9 @@ function restoreState(savedState) {
     ? savedState.findings.map(finding => ({ countAsNew: false, ...finding }))
     : [];
   state.nextFindingId = savedState.nextFindingId || 1;
+  state.preferences = {
+    saveDraft: savedState.preferences?.saveDraft ?? true
+  };
   state.filters = {
     category: savedState.filters?.category || 'all',
     status: savedState.filters?.status || 'all'
@@ -676,6 +687,7 @@ function restoreState(savedState) {
 
   recalculateDuplicates();
   dom.essayInput.value = state.essayContent;
+  if (dom.saveDraftOptIn) dom.saveDraftOptIn.checked = state.preferences.saveDraft;
   persistState();
   updateDraftBanner();
 }
@@ -691,6 +703,9 @@ function resetReviewState() {
   state.currentSelection = null;
   state.nextFindingId = 1;
   state.history = [];
+  state.preferences = {
+    saveDraft: false
+  };
   state.filters = {
     category: 'all',
     status: 'all'

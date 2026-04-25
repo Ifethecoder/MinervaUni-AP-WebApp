@@ -25,7 +25,7 @@ Aligned with the **Minerva AI Guardrails**, ReviewFlow follows a "Human-in-the-L
 - **Automated Counting**: The app tracks the total grammar count based on your tags.
 - **Intelligent Deduplication**: If you tag the same error multiple times, the app identifies it as a "REPEAT" and adds 0 to the final score.
 - **Editable Findings Log**: Reviewers can retag, delete, undo, and manually override a repeat when context requires it.
-- **Draft Recovery**: Active reviews are saved locally in the browser so work can be resumed on the same device.
+- **Opt-In Draft Recovery**: Active reviews can be saved locally in the browser when the reviewer explicitly enables device-local draft saving.
 - **Filtering & Export**: Findings can be filtered by category/status and exported as a plain-text review summary.
 - **Keyboard Support**: Popup tagging supports keyboard shortcuts for fast manual review.
 

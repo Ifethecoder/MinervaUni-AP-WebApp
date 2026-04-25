@@ -37,7 +37,7 @@
 - [x] **Privacy-First**: 100% client-side logic; no automated scanning noise.
 - [x] **Reviewer Corrections**: Findings can be retagged, deleted, and undone.
 - [x] **Duplicate Transparency**: Repeats show their source finding and can be manually overridden when needed.
-- [x] **Local Draft Recovery**: Active reviews persist locally on the same device.
+- [x] **Opt-In Draft Recovery**: Active reviews can persist locally on the same device when explicitly enabled.
 - [x] **Filtering and Export**: Findings can be filtered and exported as a plain-text review summary.
 - [x] **Keyboard Shortcuts**: Popup tagging supports keyboard-driven categorization.
 
@@ -74,6 +74,7 @@
 - Improved duplicate transparency with source references and manual override support.
 - Moved major inline UI styling into reusable CSS classes.
 - Added local draft recovery, findings filters, export, and popup keyboard shortcuts.
+- Changed draft recovery to explicit opt-in so essay text is not stored locally by default.
 - Verified JavaScript syntax with `node --check js/app.js`.
 **Learning Reflection**: M1 became substantially more usable without changing the app's core philosophy. The best improvements were the ones that reduced reviewer friction while preserving human judgment.
 **Session Link/Context**: Post-M1 stabilization pass focused on maintainability and reviewer productivity.

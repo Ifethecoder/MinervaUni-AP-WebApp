@@ -106,3 +106,18 @@
 - **Responsibility**: Reinforces that APs remain responsible for the evaluation itself while the app handles bookkeeping.
 - **Bias & Trust**: Avoids drifting toward more interpretive or subjective automation.
 - **Values**: Clarity, accountability, and human agency.
+
+## Decision 007 — Make Draft Persistence Explicitly Opt-In
+
+**Date**: 2026-04-25
+**Decision**: Require reviewers to explicitly opt in before storing essay drafts in `localStorage`.
+**Rationale**: Even though ReviewFlow is fully client-side, locally stored draft text can still contain sensitive applicant content. Draft recovery is useful, but it should be a reviewer-controlled convenience rather than the default behavior.
+**Alternatives considered**: Keep automatic draft saving on by default; remove draft recovery entirely
+**Trade-offs**: We add one more choice to the start of the workflow and may reduce use of draft recovery. In return, we better align the app with zero-trust privacy expectations while preserving the feature for reviewers who consciously want it.
+
+**Guardrails Alignment**:
+- **Privacy & IP**: Reduces unnecessary persistence of potentially sensitive essay content on shared or unmanaged devices.
+- **Disclosure**: Makes the persistence behavior explicit to the reviewer at the moment of use.
+- **Responsibility**: Keeps the human reviewer in control of whether local storage is used.
+- **Bias & Trust**: Not directly about bias, but it increases trust by matching behavior to stated privacy expectations.
+- **Values**: Privacy, agency, and transparency.
